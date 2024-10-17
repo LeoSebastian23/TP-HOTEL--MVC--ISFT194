@@ -12,6 +12,46 @@ import java.util.List;
  * **/
 
  public class PasajerosDAO extends connexion implements DAO<Pasajero> {
+    private static PasajerosDAO instance; // Instancia Singleton
+    private List<Pasajero> pasajerosList; // Lista para manejar los pasajeros
+
+    // Constructor privado para evitar la creación de nuevas instancias desde fuera
+    private PasajerosDAO() {
+        this.pasajerosList = new ArrayList<>();
+        cargarPasajeros(); // Cargar datos desde la base de datos a la lista
+    }
+
+    // Método para cargar pasajeros de la base de datos a la lista
+    private void cargarPasajeros() {
+        String sql = "SELECT * FROM pasajeros";
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                int dni = resultSet.getInt("dni");
+                String name = resultSet.getString("name");
+                String surname = resultSet.getString("surname");
+                int cel = resultSet.getInt("cel");
+                String mail = resultSet.getString("mail");
+
+                pasajerosList.add(new Pasajero(id, dni, name, surname, cel, mail));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Método estático para obtener la única instancia de PasajerosDAO
+    public static PasajerosDAO getInstance() {
+        if (instance == null) {
+            instance = new PasajerosDAO();
+        }
+        return instance;
+    }
+
     // Método para crear un pasajero en la base de datos
     @Override
     public void create(Pasajero dato) {
