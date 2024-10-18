@@ -2,7 +2,7 @@ package Models;
 
 import java.util.Objects;
 
-public class Pasajero {
+public class PasajeroModel {
     private int id;
     private int dni;
     private String name;
@@ -11,7 +11,7 @@ public class Pasajero {
     private String mail;
 
     // Constructor
-    public Pasajero(int id, int dni, String name, String surname, int cel, String mail) {
+    public PasajeroModel(int id, int dni, String name, String surname, int cel, String mail) {
         this.id = id;
         this.dni = dni;
         this.name = name;
@@ -93,11 +93,11 @@ public class Pasajero {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        Pasajero pasajero = (Pasajero) obj;
-        return dni == pasajero.dni && cel == pasajero.cel &&
-                Objects.equals(name, pasajero.name) &&
-                Objects.equals(surname, pasajero.surname) &&
-                Objects.equals(mail, pasajero.mail);
+        PasajeroModel pasajeroModel = (PasajeroModel) obj;
+        return dni == pasajeroModel.dni && cel == pasajeroModel.cel &&
+                Objects.equals(name, pasajeroModel.name) &&
+                Objects.equals(surname, pasajeroModel.surname) &&
+                Objects.equals(mail, pasajeroModel.mail);
     }
 }
 

@@ -1,4 +1,6 @@
-package Models;
+package Models.DAO;
+
+import Models.PasajeroModel;
 
 import java.util.List;
 
@@ -8,7 +10,7 @@ public interface DAO <T> {
 
     public abstract List<T> getAll();
 
-    public abstract Pasajero getById(int id);
+    public abstract PasajeroModel getById(int id);
 
     public abstract void update(T dato, int id);
 
