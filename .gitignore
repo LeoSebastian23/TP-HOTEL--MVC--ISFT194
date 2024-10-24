@@ -40,4 +40,4 @@ build/
 
 db.properties
 
-src/main/java/Models/connexion.java
+src/main/java/Models/DAO/connexion.java
