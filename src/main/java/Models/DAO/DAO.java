@@ -10,7 +10,7 @@ public interface DAO <T> {
 
     public abstract List<T> getAll();
 
-    public abstract PasajeroModel getById(int id);
+    public abstract T getById(int id);
 
     public abstract void update(T dato, int id);
 

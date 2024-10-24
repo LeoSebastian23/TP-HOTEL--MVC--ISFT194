@@ -1,9 +1,12 @@
 package Views;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import Models.PasajeroModel;
 import Controllers.PasajeroController;
 import java.util.List;
@@ -27,13 +30,19 @@ public class PasajerosView extends JFrame {
         this.pasajeroController = controller;
         setContentPane(panelPasajero);
         setTitle("Gestión de Pasajeros");
-        setSize(600, 400);
+        setSize(800, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
         // Configuración de la tabla
-        tableModel = new DefaultTableModel(new Object[]{"ID", "DNI", "Nombre", "Apellido", "Cel", "Mail"}, 0);
+        tableModel = new DefaultTableModel(new Object[]{"ID", "DNI", "Nombre", "Apellido", "Cel", "Mail"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Evita que la tabla sea editable
+            }
+        };
         pasajerosTable.setModel(tableModel);
+
         loadPasajerosTable();
 
         agregarPasajero.addActionListener(new ActionListener() {
@@ -77,6 +86,14 @@ public class PasajerosView extends JFrame {
         }
     }
 }
+
+
+
+
+
+
+
+
 
 
 

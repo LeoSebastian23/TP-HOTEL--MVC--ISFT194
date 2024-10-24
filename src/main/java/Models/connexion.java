@@ -1,4 +1,4 @@
-package Models.DAO;
+package Models;
 /**
  * La clase abstracta `connexion` se utiliza para gestionar la configuración de conexión a la base de datos.
  *
