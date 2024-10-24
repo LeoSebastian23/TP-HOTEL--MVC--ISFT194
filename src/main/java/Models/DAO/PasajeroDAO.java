@@ -46,7 +46,7 @@ import java.util.List;
                 int dni = resultSet.getInt("dni");
                 String name = resultSet.getString("name");
                 String surname = resultSet.getString("surname");
-                int cel = resultSet.getInt("cel");
+                String cel = resultSet.getString("cel");
                 String mail = resultSet.getString("mail");
 
                 // Añadir el pasajero a la lista
@@ -69,7 +69,7 @@ import java.util.List;
             statement.setInt(1, dato.getDni());
             statement.setString(2, dato.getName());
             statement.setString(3, dato.getSurname());
-            statement.setInt(4, dato.getCel());
+            statement.setString(4, dato.getCel());
             statement.setString(5, dato.getMail());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -92,7 +92,7 @@ import java.util.List;
                 int dni = resultSet.getInt("dni");
                 String name = resultSet.getString("name");
                 String surname = resultSet.getString("surname");
-                int cel = resultSet.getInt("cel");
+                String cel = resultSet.getString("cel");
                 String mail = resultSet.getString("mail");
 
                 pasajeroModels.add(new PasajeroModel(id, dni, name, surname, cel, mail));
@@ -119,7 +119,7 @@ import java.util.List;
                 int dni = resultSet.getInt("dni");
                 String name = resultSet.getString("name");
                 String surname = resultSet.getString("surname");
-                int cel = resultSet.getInt("cel");
+                String cel = resultSet.getString("cel");
                 String mail = resultSet.getString("mail");
 
                 pasajeroModel = new PasajeroModel(id, dni, name, surname, cel, mail);
@@ -141,7 +141,7 @@ import java.util.List;
             statement.setInt(1, dato.getDni());
             statement.setString(2, dato.getName());
             statement.setString(3, dato.getSurname());
-            statement.setInt(4, dato.getCel());
+            statement.setString(4, dato.getCel());
             statement.setString(5, dato.getMail());
             statement.setInt(6, id);
             statement.executeUpdate();

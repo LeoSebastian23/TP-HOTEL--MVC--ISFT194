@@ -15,7 +15,7 @@ public class PasajeroController {
     // Crear un nuevo pasajero
     public void addPasajero(PasajeroModel pasajeroModel) {
         pasajerosDAO.create(pasajeroModel);
-        System.out.println("Pasajero añadido con éxito: " + pasajeroModel.getName());
+        System.out.println("Pasajero añadido con éxito: " + pasajeroModel.getName() + pasajeroModel.getSurname());
     }
 
     // Obtener la lista de todos los pasajeros

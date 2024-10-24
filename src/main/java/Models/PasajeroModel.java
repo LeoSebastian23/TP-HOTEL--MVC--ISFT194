@@ -7,11 +7,11 @@ public class PasajeroModel {
     private int dni;
     private String name;
     private String surname;
-    private int cel;
+    private String cel;
     private String mail;
 
     // Constructor
-    public PasajeroModel(int id, int dni, String name, String surname, int cel, String mail) {
+    public PasajeroModel(int id, int dni, String name, String surname, String cel, String mail) {
         this.id = id;
         this.dni = dni;
         this.name = name;
@@ -53,11 +53,11 @@ public class PasajeroModel {
         this.surname = surname;
     }
 
-    public int getCel() {
+    public String getCel() {
         return cel;
     }
 
-    public void setCel(int cel) {
+    public void setCel(String cel) {
         this.cel = cel;
     }
 
@@ -88,16 +88,12 @@ public class PasajeroModel {
         return Objects.hash(id, dni, name, surname, cel, mail);
     }
 
-    // Método equals
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        PasajeroModel pasajeroModel = (PasajeroModel) obj;
-        return dni == pasajeroModel.dni && cel == pasajeroModel.cel &&
-                Objects.equals(name, pasajeroModel.name) &&
-                Objects.equals(surname, pasajeroModel.surname) &&
-                Objects.equals(mail, pasajeroModel.mail);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PasajeroModel that = (PasajeroModel) o;
+        return id == that.id && dni == that.dni && Objects.equals(name, that.name) && Objects.equals(surname, that.surname) && Objects.equals(cel, that.cel) && Objects.equals(mail, that.mail);
     }
 }
 
