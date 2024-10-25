@@ -28,7 +28,7 @@ public class HabitacionView extends JFrame {
         this.habitacionController = controller;
         setContentPane(panelHabitacion);
         setTitle("Gestión de Habitaciones");
-        setSize(400, 300);
+        setSize(800, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
@@ -111,9 +111,6 @@ public class HabitacionView extends JFrame {
                 }
             }
         });
-        JLabel textoModificarLabel = new JLabel("<html>1ro seleccione la habitación a actualizar, luego ingrese los datos en el panel y por ultimo presione el boton Modificar para guardar los cambios.</html>");
-        textoModificarLabel.setPreferredSize(new Dimension(200, 100)); // Establecer tamaño preferido para el JLabel
-
 
         // Listener para seleccionar un elemento en la lista
         habitacionList.addListSelectionListener(e -> {
@@ -151,7 +148,7 @@ public class HabitacionView extends JFrame {
         @Override
         public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             HabitacionModel habitacion = (HabitacionModel) value;
-            String displayText = String.format("Nº: %d, Camas: %d (S: %d, D: %d), Precio: $%d/día",
+            String displayText = String.format("Nº: %d, Camas: %d (Simples: %d, Dobles: %d), Precio: $%d/día",
                     habitacion.getNumeroHabitacion(), habitacion.getCantidadCamas(),
                     habitacion.getCantidadCamasSimples(), habitacion.getCantidadCamasDobles(), habitacion.getPrecioDia());
             return super.getListCellRendererComponent(list, displayText, index, isSelected, cellHasFocus);

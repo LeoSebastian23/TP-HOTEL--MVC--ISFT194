@@ -1,12 +1,8 @@
 package Views;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 import Models.PasajeroModel;
 import Controllers.PasajeroController;
 import java.util.List;
@@ -18,13 +14,13 @@ public class PasajerosView extends JFrame {
     private JTextField celField;
     private JTextField mailField;
     private JButton agregarPasajero;
-    private JPanel panelPasajero;
-    private JTable pasajerosTable;
     private JButton modificarButton;
     private JButton eliminarButton;
+    private JPanel panelPasajero;
+    private JList<PasajeroModel> pasajerosList;
 
     private final PasajeroController pasajeroController;
-    private DefaultTableModel tableModel;
+    private DefaultListModel<PasajeroModel> listModel;
 
     public PasajerosView(PasajeroController controller) {
         this.pasajeroController = controller;
@@ -34,17 +30,14 @@ public class PasajerosView extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
-        // Configuración de la tabla
-        tableModel = new DefaultTableModel(new Object[]{"ID", "DNI", "Nombre", "Apellido", "Cel", "Mail"}, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false; // Evita que la tabla sea editable
-            }
-        };
-        pasajerosTable.setModel(tableModel);
+        // Configuración de la lista
+        listModel = new DefaultListModel<>();
+        pasajerosList.setModel(listModel);
+        pasajerosList.setCellRenderer(new PasajeroListRenderer());
 
-        loadPasajerosTable();
+        loadPasajerosList();
 
+        // Listener para el botón "Agregar"
         agregarPasajero.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,12 +51,70 @@ public class PasajerosView extends JFrame {
                     PasajeroModel pasajero = new PasajeroModel(0, dni, name, surname, cel, mail);
                     pasajeroController.addPasajero(pasajero);
 
-                    JOptionPane.showMessageDialog(null, "Pasajero agregado correctamente!");
+                    JOptionPane.showMessageDialog(null, "¡Pasajero agregado correctamente!");
                     clearFields();
-                    loadPasajerosTable();
+                    loadPasajerosList();
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Por favor, ingresa valores válidos.");
                 }
+            }
+        });
+
+        // Listener para el botón "Modificar"
+        modificarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedIndex = pasajerosList.getSelectedIndex();
+                if (selectedIndex != -1) {
+                    try {
+                        PasajeroModel selectedPasajero = pasajerosList.getSelectedValue();
+                        int id = selectedPasajero.getId();
+                        int dni = Integer.parseInt(dniField.getText());
+                        String name = nameField.getText();
+                        String surname = surnameField.getText();
+                        String cel = celField.getText();
+                        String mail = mailField.getText();
+
+                        PasajeroModel pasajero = new PasajeroModel(id, dni, name, surname, cel, mail);
+                        pasajeroController.updatePasajero(pasajero, id);
+
+                        JOptionPane.showMessageDialog(null, "¡Pasajero modificado correctamente!");
+                        clearFields();
+                        loadPasajerosList();
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "Por favor, ingresa valores válidos.");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Selecciona un pasajero para modificar.");
+                }
+            }
+        });
+
+        // Listener para el botón "Eliminar"
+        eliminarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedIndex = pasajerosList.getSelectedIndex();
+                if (selectedIndex != -1) {
+                    PasajeroModel selectedPasajero = pasajerosList.getSelectedValue();
+                    pasajeroController.deletePasajero(selectedPasajero.getId());
+                    JOptionPane.showMessageDialog(null, "¡Pasajero eliminado correctamente!");
+                    loadPasajerosList();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Selecciona un pasajero para eliminar.");
+                }
+            }
+        });
+
+        // Listener para seleccionar un elemento en la lista
+        pasajerosList.addListSelectionListener(e -> {
+            PasajeroModel selectedPasajero = pasajerosList.getSelectedValue();
+            if (selectedPasajero != null) {
+                dniField.setText(String.valueOf(selectedPasajero.getDni()));
+                nameField.setText(selectedPasajero.getName());
+                surnameField.setText(selectedPasajero.getSurname());
+                celField.setText(selectedPasajero.getCel());
+                mailField.setText(selectedPasajero.getMail());
             }
         });
     }
@@ -76,16 +127,29 @@ public class PasajerosView extends JFrame {
         mailField.setText("");
     }
 
-    private void loadPasajerosTable() {
-        // Limpia la tabla antes de agregar nuevos datos
-        tableModel.setRowCount(0);
-
+    private void loadPasajerosList() {
+        listModel.clear();
         List<PasajeroModel> pasajeros = pasajeroController.getAllPasajeros();
         for (PasajeroModel p : pasajeros) {
-            tableModel.addRow(new Object[]{p.getId(), p.getDni(), p.getName(), p.getSurname(), p.getCel(), p.getMail()});
+            listModel.addElement(p);
+        }
+    }
+
+    // Renderer personalizado para mostrar datos de pasajeros
+    private static class PasajeroListRenderer extends DefaultListCellRenderer {
+        @Override
+        public java.awt.Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            if (value instanceof PasajeroModel) {
+                PasajeroModel pasajero = (PasajeroModel) value;
+                setText(pasajero.getName() + " " + pasajero.getSurname() + " - DNI: " + pasajero.getDni());
+            }
+            return this;
         }
     }
 }
+
+
 
 
 

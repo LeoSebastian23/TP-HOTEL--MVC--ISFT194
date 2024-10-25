@@ -12,5 +12,5 @@ package Models;
 public abstract class connexion {
     protected final String URL = "jdbc:mysql://localhost:3306/HotelTito";
     protected final String USER = "root";
-    protected final String PASSWORD = "panza2021";
+    protected final String PASSWORD = "";
 }
